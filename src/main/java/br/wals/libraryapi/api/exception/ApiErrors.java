@@ -2,14 +2,16 @@ package br.wals.libraryapi.api.exception;
 
 import br.wals.libraryapi.exception.BusinessException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ApiErrors {
 
-    private List<String> errors;
+    private final List<String> errors;
     public ApiErrors(BindingResult bindingResult) {
         this.errors = new ArrayList<>();
         bindingResult.getAllErrors()
@@ -17,7 +19,11 @@ public class ApiErrors {
     }
 
     public ApiErrors(BusinessException ex) {
-        this.errors = Arrays.asList(ex.getMessage());
+        this.errors = Collections.singletonList(ex.getMessage());
+    }
+
+    public ApiErrors(ResponseStatusException ex) {
+        this.errors = Collections.singletonList(ex.getReason());
     }
 
     public List<String> getErrors() {

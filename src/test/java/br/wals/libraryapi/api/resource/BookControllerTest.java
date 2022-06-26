@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
+@WebMvcTest(controllers = BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
 
@@ -222,7 +223,7 @@ public class BookControllerTest {
                 .build();
 
         BDDMockito.given(service.find(Mockito.any(Book.class), Mockito.any(Pageable.class)))
-                .willReturn(new PageImpl<Book>(Arrays.asList(book), PageRequest.of(0, 100),
+                .willReturn(new PageImpl<>(Collections.singletonList(book), PageRequest.of(0, 100),
                         1));
 
         String queryString = String.format("?title=%s&author=%s&page=0&size=100",
@@ -241,7 +242,6 @@ public class BookControllerTest {
     }
 
     private BookDTO createNewBook() {
-        BookDTO dto = BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
-        return dto;
+        return BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
     }
 }
