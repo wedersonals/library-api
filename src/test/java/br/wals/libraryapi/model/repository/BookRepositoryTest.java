@@ -1,7 +1,6 @@
-package br.wals.libraryapi.model;
+package br.wals.libraryapi.model.repository;
 
 import br.wals.libraryapi.model.entity.Book;
-import br.wals.libraryapi.model.repository.BookRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,7 +76,7 @@ public class BookRepositoryTest {
         assertThat(deletedBook).isNull();
     }
 
-    private Book createNewBook(String isbn) {
+    public static Book createNewBook(String isbn) {
         return Book.builder().isbn(isbn).author("Fulano").title("As aventuras").build();
     }
 
