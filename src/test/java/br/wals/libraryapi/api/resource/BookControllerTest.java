@@ -4,6 +4,7 @@ import br.wals.libraryapi.api.dto.BookDTO;
 import br.wals.libraryapi.exception.BusinessException;
 import br.wals.libraryapi.model.entity.Book;
 import br.wals.libraryapi.service.BookService;
+import br.wals.libraryapi.service.LoanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -46,6 +46,9 @@ public class BookControllerTest {
 
     @MockBean
     BookService service;
+
+    @MockBean
+    LoanService loanService;
 
     @Test
     @DisplayName("Deve criar um livro com sucesso")
