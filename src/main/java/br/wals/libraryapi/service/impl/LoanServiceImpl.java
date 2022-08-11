@@ -2,6 +2,7 @@ package br.wals.libraryapi.service.impl;
 
 import br.wals.libraryapi.api.dto.LoanFilterDTO;
 import br.wals.libraryapi.exception.BusinessException;
+import br.wals.libraryapi.model.entity.Book;
 import br.wals.libraryapi.model.entity.Loan;
 import br.wals.libraryapi.model.repository.LoanRepository;
 import br.wals.libraryapi.service.LoanService;
@@ -41,5 +42,10 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Page<Loan> find(LoanFilterDTO filterDTO, Pageable pageRequest) {
         return repository.findByBookIsbnOrCustomer(filterDTO.getIsbn(), filterDTO.getCustomer(), pageRequest);
+    }
+
+    @Override
+    public Page<Loan> getLoansByBook(Book book, Pageable pageable) {
+        return repository.findByBook(book, pageable);
     }
 }

@@ -1,6 +1,7 @@
 package br.wals.libraryapi.service;
 
 import br.wals.libraryapi.api.dto.LoanFilterDTO;
+import br.wals.libraryapi.model.entity.Book;
 import br.wals.libraryapi.model.entity.Loan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface LoanService {
     Loan update(Loan loan);
 
     Page<Loan> find(LoanFilterDTO filterDTO, Pageable pageable);
+
+    Page<Loan> getLoansByBook(Book book, Pageable pageable);
 }
