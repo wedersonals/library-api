@@ -8,6 +8,8 @@ import br.wals.libraryapi.model.entity.Book;
 import br.wals.libraryapi.model.entity.Loan;
 import br.wals.libraryapi.service.BookService;
 import br.wals.libraryapi.service.LoanService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/loans")
 @RequiredArgsConstructor
+@Api("Loan API")
 public class LoanController {
 
     private final BookService bookService;
@@ -32,6 +35,7 @@ public class LoanController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Creates a loan")
     public Long create(@RequestBody LoanDTO dto) {
         Book book = bookService.getBookByIsbn(dto.getIsbn())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found for passed isbn"));
@@ -42,6 +46,7 @@ public class LoanController {
     }
 
     @PatchMapping("{id}")
+    @ApiOperation("Updates loan status")
     public void returnedBook(@PathVariable("id") Long id,
                              @RequestBody ReturnedLoanDTO dto) {
         Loan loan = loanService.getById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -50,6 +55,7 @@ public class LoanController {
     }
 
     @GetMapping
+    @ApiOperation("Find loans by params")
     public Page<LoanDTO> find(LoanFilterDTO filterDTO, Pageable pageRequest) {
         Page<Loan> result = loanService.find(filterDTO, pageRequest);
         List<LoanDTO> loans = result.getContent().stream()
